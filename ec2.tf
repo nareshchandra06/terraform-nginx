@@ -8,13 +8,16 @@ resource "aws_instance" "web1" {
   # the Public SSH key
   key_name = aws_key_pair.london-region-key-pair.id
   # nginx installation
+  tags = {
+    Name = "Terraform-provision"
+  }
   provisioner "file" {
     source      = "nginx.sh"
     destination = "/tmp/nginx.sh"
   }
   provisioner "remote-exec" {
     inline = [
-     "chmod +x /tmp/nginx.sh",
+      "chmod +x /tmp/nginx.sh",
       "sudo /tmp/nginx.sh"
     ]
   }
